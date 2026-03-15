@@ -19,7 +19,10 @@ from app.core.config import settings
 config = context.config
 
 # Override sqlalchemy.url with the one from settings
-config.set_main_option("sqlalchemy.url", settings.DATABASE_URL)
+_db_url = settings.DATABASE_URL
+if _db_url.startswith("postgres://"):
+    _db_url = _db_url.replace("postgres://", "postgresql://", 1)
+config.set_main_option("sqlalchemy.url", _db_url)
 
 # Interpret the config file for Python logging
 if config.config_file_name is not None:

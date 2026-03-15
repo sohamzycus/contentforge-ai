@@ -34,7 +34,7 @@ services:
       - key: IMAGE_MODEL
         value: black-forest-labs/FLUX.1-schnell
       - key: CORS_ORIGINS
-        value: https://contentforge-frontend.onrender.com,https://contentforge-ai.onrender.com
+        value: https://contentforge-frontend.onrender.com,https://contentforge-ai.onrender.com,https://contentforge-ai-bwpw.onrender.com
       - key: PORT
         value: 8000
 
