@@ -29,7 +29,7 @@ from app.services.impl.order_service import OrderService
 from app.services.impl.transaction_service import TransactionService
 from app.services.impl.investment_service import InvestmentService
 from app.services.impl.triage_service import TriageService
-from app.services.impl.marketing_agent import ClaudeContentStrategy
+from app.services.impl.marketing_agent import LLMContentStrategy
 
 
 class ServiceFactory:
@@ -46,10 +46,10 @@ class ServiceFactory:
         return AuthService(self._create_uow())
 
     def create_content_strategy(self) -> IContentGenerationStrategy:
-        return ClaudeContentStrategy(
-            api_key=settings.ANTHROPIC_API_KEY,
-            base_url=settings.ANTHROPIC_BASE_URL,
-            model=settings.ANTHROPIC_MODEL,
+        return LLMContentStrategy(
+            api_key=settings.effective_ai_api_key,
+            base_url=settings.AI_BASE_URL,
+            model=settings.AI_MODEL,
         )
 
     def create_project_service(self) -> IProjectService:

@@ -4,7 +4,6 @@ Pollinations.ai (fallback).  Returns base64 data-URLs for the frontend.
 
 import base64
 import logging
-import os
 import time
 import urllib.parse
 from typing import List, Optional, Tuple
@@ -50,9 +49,10 @@ class ImageGenResponse(BaseModel):
 def _generate_via_together(
     prompts: List[str], width: int, height: int
 ) -> Tuple[List[GeneratedImage], List[str]]:
-    api_key = os.getenv("TOGETHER_API_KEY")
+    from app.core.config import settings
+    api_key = settings.effective_image_api_key
     if not api_key:
-        return [], ["TOGETHER_API_KEY not configured"]
+        return [], ["IMAGE_API_KEY / TOGETHER_API_KEY not configured"]
 
     headers = {
         "Authorization": f"Bearer {api_key}",
@@ -63,7 +63,7 @@ def _generate_via_together(
 
     for i, prompt in enumerate(prompts):
         payload = {
-            "model": "black-forest-labs/FLUX.1-schnell",
+            "model": settings.IMAGE_MODEL,
             "prompt": prompt,
             "width": width,
             "height": height,

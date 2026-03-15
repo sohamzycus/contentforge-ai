@@ -25,14 +25,14 @@ services:
         value: HS256
       - key: ACCESS_TOKEN_EXPIRE_MINUTES
         value: 1440
-      - key: ANTHROPIC_API_KEY
+      - key: AI_API_KEY
         sync: false
-      - key: ANTHROPIC_BASE_URL
-        sync: false
-      - key: ANTHROPIC_MODEL
-        value: claude-3-5-haiku-20241022
-      - key: TOGETHER_API_KEY
-        sync: false
+      - key: AI_BASE_URL
+        value: https://api.together.xyz/v1
+      - key: AI_MODEL
+        value: meta-llama/Llama-3.3-70B-Instruct-Turbo-Free
+      - key: IMAGE_MODEL
+        value: black-forest-labs/FLUX.1-schnell
       - key: CORS_ORIGINS
         value: https://contentforge-frontend.onrender.com,https://contentforge-ai.onrender.com
       - key: PORT

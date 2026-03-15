@@ -4,6 +4,7 @@ import json
 import logging
 from typing import List, Optional
 
+import httpx
 from fastapi import APIRouter, Depends, HTTPException, status
 from pydantic import BaseModel
 
@@ -39,6 +40,28 @@ class ParseOrderResponse(BaseModel):
     source: str = "WHATSAPP"
 
 
+def _chat_completion(prompt: str) -> str:
+    api_key = settings.effective_ai_api_key
+    if not api_key:
+        raise ValueError("AI_API_KEY (or TOGETHER_API_KEY) not configured")
+
+    url = f"{settings.AI_BASE_URL.rstrip('/')}/chat/completions"
+    headers = {
+        "Authorization": f"Bearer {api_key}",
+        "Content-Type": "application/json",
+    }
+    payload = {
+        "model": settings.AI_MODEL,
+        "messages": [{"role": "user", "content": prompt}],
+        "temperature": 0.1,
+        "max_tokens": 1024,
+    }
+    with httpx.Client(timeout=60) as client:
+        resp = client.post(url, json=payload, headers=headers)
+    resp.raise_for_status()
+    return resp.json()["choices"][0]["message"]["content"]
+
+
 @router.post("/parse-order", response_model=ParseOrderResponse)
 def parse_whatsapp_order(
     data: ParseOrderRequest,
@@ -54,12 +77,6 @@ def parse_whatsapp_order(
     items_catalog = [{"id": i.id, "name": i.name, "category": i.category, "unit": i.unit} for i in available_items]
 
     try:
-        import anthropic
-        client = anthropic.Anthropic(
-            api_key=settings.ANTHROPIC_API_KEY,
-            base_url=settings.ANTHROPIC_BASE_URL,
-        )
-
         prompt = f"""Parse this WhatsApp order message into structured data. Match items to the catalog when possible.
 
 ITEM CATALOG (id, name, category):
@@ -84,13 +101,7 @@ Rules:
 - Extract customer name/phone if mentioned.
 - Default quantity is 1 if not specified."""
 
-        response = client.messages.create(
-            model=settings.ANTHROPIC_MODEL,
-            max_tokens=1024,
-            messages=[{"role": "user", "content": prompt}],
-        )
-
-        raw_text = response.content[0].text.strip()
+        raw_text = _chat_completion(prompt)
         if raw_text.startswith("```"):
             raw_text = raw_text.split("\n", 1)[1].rsplit("```", 1)[0].strip()
 
