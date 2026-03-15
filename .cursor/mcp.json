@@ -1,0 +1,27 @@
+{
+  "mcpServers": {
+    "codeoracle": {
+      "command": "/Users/soham.niyogi/Soham/codebase/codeoracle/.venv/bin/python3.14",
+      "args": ["-m", "codeoracle.mcp_server"],
+      "cwd": "/Users/soham.niyogi/Soham/codebase/codeoracle",
+      "env": {
+        "ANTHROPIC_API_KEY": "sk-FF-8TSQ8wK6Icu12qsdIEA",
+        "ANTHROPIC_BASE_URL": "https://litellm-qc.zycus.net/",
+        "ANTHROPIC_MODEL": "claude-sonnet-4-5-global",
+        "BASE_URL": "https://litellm-qc.zycus.net/",
+        "MODEL": "claude-sonnet-4-5-global",
+        "TIKTOKEN_CACHE_DIR": "/Users/soham.niyogi/Soham/codebase/codeoracle/.tiktoken_cache"
+      }
+    },
+    "contractos": {
+      "command": "/Users/soham.niyogi/Soham/codebase/ContractOS/.venv/bin/python",
+      "args": ["-m", "contractos.mcp.server"],
+      "env": {
+        "PYTHONPATH": "src",
+        "ANTHROPIC_API_KEY": "sk-FF-8TSQ8wK6Icu12qsdIEA",
+        "ANTHROPIC_BASE_URL": "https://litellm-qc.zycus.net/",
+        "ANTHROPIC_MODEL": "claude-sonnet-4-5-global"
+      }
+    }
+  }
+}

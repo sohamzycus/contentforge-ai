@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "description": "Speckit external integrations configuration",
+  "version": "1.0.0",
+  "integrations": {
+    "jira": {
+      "enabled": true,
+      "type": "atlassian-cloud",
+      "baseUrl": "https://pdtzycus.atlassian.net",
+      "projectKeys": ["ZPDT"],
+      "useProxy": true,
+      "endpoints": {
+        "issues": "/rest/api/3/search",
+        "issue": "/rest/api/3/issue/{issueKey}",
+        "projects": "/rest/api/3/project"
+      },
+      "issueTypes": {
+        "userStory": ["Story", "User Story"],
+        "task": ["Task", "Sub-task"],
+        "bug": ["Bug"],
+        "epic": ["Epic"]
+      },
+      "fields": {
+        "summary": "summary",
+        "description": "description",
+        "acceptanceCriteria": "customfield_10016",
+        "storyPoints": "customfield_10020",
+        "sprint": "customfield_10010",
+        "epic": "customfield_10014"
+      },
+      "jqlTemplates": {
+        "activeSprintStories": "project = {project} AND issuetype in (Story, 'User Story') AND sprint in openSprints()",
+        "epicStories": "project = {project} AND 'Epic Link' = {epicKey}",
+        "myTasks": "project = {project} AND assignee = currentUser() AND status != Done",
+        "recentUpdates": "project = {project} AND updated >= -7d ORDER BY updated DESC"
+      }
+    }
+  },
+  "defaults": {
+    "issueRefPattern": "ZPDT-\\d+",
+    "todoPattern": "TODO\\(({issueRef})\\):",
+    "linkPrefix": "https://pdtzycus.atlassian.net/browse/"
+  }
+}
