@@ -11,9 +11,8 @@ services:
     plan: free
     region: singapore
     runtime: docker
-    rootDir: backend
-    dockerfilePath: ./Dockerfile
-    dockerContext: .
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
     healthCheckPath: /health
     envVars:
       - key: DATABASE_URL
@@ -44,9 +43,8 @@ services:
     plan: free
     region: singapore
     runtime: docker
-    rootDir: frontend
-    dockerfilePath: ./Dockerfile.prod
-    dockerContext: .
+    dockerfilePath: ./frontend/Dockerfile.prod
+    dockerContext: ./frontend
     envVars:
       - key: VITE_API_URL
         value: https://contentforge-backend.onrender.com
