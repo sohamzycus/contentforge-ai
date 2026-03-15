@@ -1,0 +1,52 @@
+databases:
+  - name: contentforge-db
+    plan: free
+    databaseName: contentforge
+    user: contentforge_user
+    region: singapore
+
+services:
+  - type: web
+    name: contentforge-backend
+    plan: free
+    region: singapore
+    runtime: docker
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    healthCheckPath: /health
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: contentforge-db
+          property: connectionString
+      - key: SECRET_KEY
+        generateValue: true
+      - key: ALGORITHM
+        value: HS256
+      - key: ACCESS_TOKEN_EXPIRE_MINUTES
+        value: 1440
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: ANTHROPIC_BASE_URL
+        sync: false
+      - key: ANTHROPIC_MODEL
+        value: claude-3-5-haiku-20241022
+      - key: TOGETHER_API_KEY
+        sync: false
+      - key: CORS_ORIGINS
+        value: https://contentforge-frontend.onrender.com,https://contentforge-ai.onrender.com
+      - key: PORT
+        value: 8000
+
+  - type: web
+    name: contentforge-frontend
+    plan: free
+    region: singapore
+    runtime: docker
+    dockerfilePath: ./frontend/Dockerfile.prod
+    dockerContext: ./frontend
+    envVars:
+      - key: VITE_API_URL
+        value: https://contentforge-backend.onrender.com
+      - key: PORT
+        value: 80
