@@ -7,11 +7,11 @@ from app.services.impl.order_service import OrderService
 from app.services.impl.transaction_service import TransactionService
 from app.services.impl.investment_service import InvestmentService
 from app.services.impl.triage_service import TriageService
-from app.services.impl.marketing_agent import ClaudeContentStrategy
+from app.services.impl.marketing_agent import LLMContentStrategy
 
 __all__ = [
     "AuthService", "ProjectService",
     "BrandService", "ItemService", "InventoryService",
     "OrderService", "TransactionService", "InvestmentService",
-    "TriageService", "ClaudeContentStrategy",
+    "TriageService", "LLMContentStrategy",
 ]
