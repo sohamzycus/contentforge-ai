@@ -14,7 +14,7 @@ class Settings(BaseSettings):
     # AI — LLM (text generation: content, order parsing, etc.)
     AI_API_KEY: str = ""
     AI_BASE_URL: str = "https://api.together.xyz/v1"
-    AI_MODEL: str = "meta-llama/Llama-3.3-70B-Instruct-Turbo-Free"
+    AI_MODEL: str = "meta-llama/Llama-3.3-70B-Instruct-Turbo"
 
     # AI — Image generation
     IMAGE_API_KEY: Optional[str] = None

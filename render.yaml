@@ -30,7 +30,7 @@ services:
       - key: AI_BASE_URL
         value: https://api.together.xyz/v1
       - key: AI_MODEL
-        value: meta-llama/Llama-3.3-70B-Instruct-Turbo-Free
+        value: meta-llama/Llama-3.3-70B-Instruct-Turbo
       - key: IMAGE_MODEL
         value: black-forest-labs/FLUX.1-schnell
       - key: CORS_ORIGINS
